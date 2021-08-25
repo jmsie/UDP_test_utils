@@ -65,7 +65,8 @@ int test_multicast()
 
 	/* use setsockopt() to request that the kernel join a multicast group */
 	struct ip_mreq mreq = {};
-	InetPton(AF_INET, LOCAL_IP, &mreq.imr_interface.s_addr);
+	//InetPton(AF_INET, LOCAL_IP, &mreq.imr_interface.s_addr);
+	mreq.imr_interface.s_addr = htonl(INADDR_ANY);
 	InetPton(AF_INET, MULTICAST_GROUP_ADDRESS, &mreq.imr_multiaddr.s_addr);
 	if (setsockopt(fd, IPPROTO_IP, IP_ADD_MEMBERSHIP, (const char*)&mreq, sizeof(mreq)) < 0) {
 		printf("set error IP_ADD_MEMBERSHIP %d\n", WSAGetLastError());
